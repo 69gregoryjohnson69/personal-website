@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeopardy - Brotes Módulo 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --board-blue:#060CE9;
+  --cell-blue:#1111CC;
+  --cell-hover:#2222EE;
+  --gold:#FFCC00;
+  --dark:#0A0A2E;
+  --green:#28a745;
+  --red:#dc3545;
+}
+body{font-family:'Lato',sans-serif;background:var(--dark);color:#fff;min-height:100vh;overflow-x:hidden}
+.header{text-align:center;padding:18px 10px 10px;background:linear-gradient(135deg,#0A0A2E 0%,#1a1a5e 100%)}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:4px;color:var(--gold);text-shadow:2px 2px 8px rgba(0,0,0,.6)}
+.header p{font-size:.95rem;opacity:.7;margin-top:2px}
+.scoreboard{display:flex;justify-content:center;gap:24px;padding:10px;flex-wrap:wrap}
+.team-score{background:rgba(255,255,255,.08);border:2px solid rgba(255,204,0,.3);border-radius:10px;padding:8px 20px;text-align:center;min-width:140px;cursor:pointer;transition:.2s}
+.team-score:hover{border-color:var(--gold);background:rgba(255,204,0,.08)}
+.team-score .name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:var(--gold)}
+.team-score .score{font-size:1.6rem;font-weight:700}
+.team-score.active{border-color:var(--gold);box-shadow:0 0 16px rgba(255,204,0,.3)}
+.board{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:10px 12px;max-width:1100px;margin:0 auto}
+.cat-header{background:var(--board-blue);text-align:center;padding:12px 4px;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:1.5px;color:#fff;border-radius:6px;text-shadow:1px 1px 4px rgba(0,0,0,.5);line-height:1.2}
+.cell{background:var(--cell-blue);text-align:center;padding:18px 6px;font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--gold);border-radius:6px;cursor:pointer;transition:.15s;text-shadow:2px 2px 6px rgba(0,0,0,.4);user-select:none}
+.cell:hover{background:var(--cell-hover);transform:scale(1.04)}
+.cell.used{background:#333;color:#555;cursor:default;pointer-events:none}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;z-index:100;align-items:center;justify-content:center;padding:20px}
+.overlay.show{display:flex}
+.card{background:var(--board-blue);border:4px solid var(--gold);border-radius:16px;max-width:680px;width:100%;padding:36px 32px;text-align:center;position:relative;animation:popIn .25s ease}
+@keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.card .pts{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--gold);margin-bottom:12px}
+.card .question{font-size:1.25rem;line-height:1.5;margin-bottom:24px}
+.card .answer-area{margin-bottom:18px}
+.btn{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:1.1rem;padding:10px 28px;border:none;border-radius:8px;cursor:pointer;transition:.15s;margin:4px}
+.btn-gold{background:var(--gold);color:#000}.btn-gold:hover{background:#FFD633}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#34c759}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#e04555}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,.4);color:#fff}.btn-outline:hover{border-color:#fff}
+.answer-reveal{background:rgba(255,204,0,.12);border:2px solid var(--gold);border-radius:10px;padding:16px;margin:16px 0;font-size:1.15rem;color:var(--gold);display:none}
+.answer-reveal.show{display:block}
+.team-award{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.close-card{position:absolute;top:10px;right:16px;font-size:1.5rem;cursor:pointer;color:rgba(255,255,255,.5);background:none;border:none}
+.close-card:hover{color:#fff}
+.setup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.setup-card{background:linear-gradient(145deg,#1a1a5e,#0A0A2E);border:3px solid var(--gold);border-radius:16px;padding:40px;max-width:500px;width:100%;text-align:center}
+.setup-card h2{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--gold);letter-spacing:3px;margin-bottom:8px}
+.setup-card p{opacity:.7;margin-bottom:24px;font-size:.95rem}
+.setup-card input{width:100%;padding:10px 14px;margin:6px 0;border-radius:8px;border:2px solid rgba(255,204,0,.3);background:rgba(255,255,255,.06);color:#fff;font-size:1rem;font-family:'Lato',sans-serif}
+.setup-card input::placeholder{color:rgba(255,255,255,.3)}
+.setup-card input:focus{outline:none;border-color:var(--gold)}
+.final-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;display:none;align-items:center;justify-content:center}
+.final-overlay.show{display:flex}
+.final-card{text-align:center;animation:popIn .4s ease}
+.final-card h2{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--gold);letter-spacing:4px}
+.final-card .winner{font-size:1.4rem;margin:16px 0}
+.final-card .all-scores{margin:20px 0;font-size:1.1rem;line-height:2}
+@media(max-width:700px){
+  .board{grid-template-columns:repeat(6,1fr);gap:3px;padding:6px}
+  .cat-header{font-size:.7rem;padding:8px 2px}
+  .cell{font-size:1.2rem;padding:12px 2px}
+  .card{padding:24px 18px}
+  .header h1{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+
+<!-- SETUP -->
+<div class="setup-overlay" id="setup">
+  <div class="setup-card">
+    <h2>JEOPARDY!</h2>
+    <p>Brotes Módulo 2 — Lecciones 2A–2D</p>
+    <p style="opacity:1;font-weight:700">Enter team names (2–4 teams):</p>
+    <input id="t1" placeholder="Team 1 name (required)" value="">
+    <input id="t2" placeholder="Team 2 name (required)" value="">
+    <input id="t3" placeholder="Team 3 name (optional)" value="">
+    <input id="t4" placeholder="Team 4 name (optional)" value="">
+    <br><br>
+    <button class="btn btn-gold" onclick="startGame()">START GAME</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>JEOPARDY! — MÓDULO 2</h1>
+  <p>Brotes: Lecciones 2A–2D | SPAN 1501</p>
+</div>
+
+<!-- SCOREBOARD -->
+<div class="scoreboard" id="scoreboard"></div>
+
+<!-- BOARD -->
+<div class="board" id="board"></div>
+
+<!-- QUESTION OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="card">
+    <button class="close-card" onclick="closeCard()">&times;</button>
+    <div class="pts" id="cardPts"></div>
+    <div class="question" id="cardQ"></div>
+    <div class="answer-area">
+      <button class="btn btn-gold" id="revealBtn" onclick="revealAnswer()">SHOW ANSWER</button>
+      <div class="answer-reveal" id="ansReveal"></div>
+    </div>
+    <div class="team-award" id="teamAward"></div>
+  </div>
+</div>
+
+<!-- FINAL SCREEN -->
+<div class="final-overlay" id="finalOverlay">
+  <div class="final-card" id="finalCard"></div>
+</div>
+
+<script>
+const CATEGORIES = [
+  "Vocabulario: Comida & Consumo",
+  "El Medio Ambiente",
+  "Hace / Desde Hace",
+  "El Imperfecto",
+  "Obligación & Recomendación",
+  "Pretérito vs. Imperfecto"
+];
+
+const QUESTIONS = [
+  // Cat 0: Vocabulario - Comida & Consumo
+  [
+    {q:"¿Cómo se dice 'waste' en español, cuando hablamos de comida?",a:"desperdicio"},
+    {q:"¿Qué palabra describe a una persona que come carne solo a veces?",a:"flexitariano"},
+    {q:"¿Cómo se dice 'reusable bottle' en español?",a:"botella reutilizable"},
+    {q:"¿Qué significa 'sello ecológico'?",a:"eco-label (a label certifying a product is environmentally friendly)"},
+    {q:"Nombra 3 palabras del vocabulario relacionadas con la sostenibilidad alimentaria.",a:"Answers vary. Examples: local, orgánico, sostenible, reutilizable, reciclar, reducir, planificar, cultivar, etc."},
+  ],
+  // Cat 1: El Medio Ambiente
+  [
+    {q:"¿Qué es una 'chinampa'?",a:"A floating garden, traditional to Mexico (zona lacustre de Xochimilco)"},
+    {q:"¿Cómo se dice 'endangered species' en español?",a:"especie en peligro de extinción"},
+    {q:"¿Qué significa 'humedal'?",a:"wetland"},
+    {q:"¿Qué son los 'gases de efecto invernadero'?",a:"greenhouse gases"},
+    {q:"Explica la diferencia entre 'deforestación' y 'contaminación'.",a:"Deforestación = destruction of forests. Contaminación = pollution (of air, water, or soil). Both harm el medio ambiente."},
+  ],
+  // Cat 2: Hace / Desde Hace
+  [
+    {q:"Complete: '_____ dos años que estudio español.'",a:"Hace (ongoing action with present tense)"},
+    {q:"Complete: 'Reciclo _____ tres meses.'",a:"desde hace (duration at end of sentence)"},
+    {q:"Translate: 'I went to Colombia two weeks ago.'",a:"Hace dos semanas que fui a Colombia. / Fui a Colombia hace dos semanas."},
+    {q:"Complete: '_____ mucho tiempo que no como carne procesada.'",a:"Hace (ongoing state with present tense)"},
+    {q:"Write a sentence using 'desde hace' about how long you have been doing something sustainable.",a:"Answers vary. Example: Uso una botella reutilizable desde hace seis meses."},
+  ],
+  // Cat 3: El Imperfecto
+  [
+    {q:"Conjugate 'cocinar' in the imperfect: yo ______",a:"cocinaba"},
+    {q:"Conjugate 'ir' in the imperfect: nosotros ______",a:"íbamos"},
+    {q:"Conjugate 'ser' in the imperfect: ellos ______",a:"eran"},
+    {q:"Conjugate 'ver' in the imperfect: tú ______",a:"veías"},
+    {q:"Write a sentence using the imperfect to describe a habitual action: 'When I was young, I always used to...'",a:"Answers vary. Example: Cuando era joven, siempre reciclaba con mi familia."},
+  ],
+  // Cat 4: Obligación & Recomendación
+  [
+    {q:"¿Cuál es la diferencia entre 'hay que' y 'tener que'?",a:"Hay que = impersonal (one must). Tener que = personal (subject + has to). Hay que never changes form."},
+    {q:"Complete: 'Los estudiantes ______ ______ estudiar para el examen.' (personal obligation)",a:"tienen que"},
+    {q:"Complete: '______ ______ conservar los recursos naturales.' (impersonal)",a:"Hay que"},
+    {q:"Translate using 'no poder': 'You (tú) cannot waste water.'",a:"No puedes desperdiciar agua."},
+    {q:"Write a sentence using 'deber' to give a recommendation about the environment.",a:"Answers vary. Example: Debemos reducir el uso de plásticos de un solo uso."},
+  ],
+  // Cat 5: Pretérito vs. Imperfecto
+  [
+    {q:"'Ayer yo ______ (ir) al mercado.' Pretérito or imperfecto?",a:"fui (pretérito — completed action, specific time: ayer)"},
+    {q:"'Cuando era niño, siempre ______ (comer) comida local.' P or I?",a:"comía (imperfecto — habitual past action with 'siempre')"},
+    {q:"Interruption: 'Mientras yo ______ (caminar), ______ (sonar) el teléfono.'",a:"caminaba (imperfecto, ongoing) / sonó (pretérito, interrupting action)"},
+    {q:"Simultaneous: 'Mientras mamá ______ (cocinar), papá ______ (leer).'",a:"cocinaba / leía (both imperfecto — two ongoing actions at the same time)"},
+    {q:"Write 2 sentences: one using pretérito and one using imperfecto about last weekend vs. your childhood.",a:"Answers vary. Ex: El fin de semana pasado compré productos locales. (P) / Cuando era niño, siempre iba al parque. (I)"},
+  ]
+];
+
+const POINTS = [100,200,300,400,500];
+let teams = [];
+let usedCells = new Set();
+let currentPts = 0;
+let totalCells = 30;
+
+function startGame(){
+  const names = [
+    document.getElementById('t1').value.trim(),
+    document.getElementById('t2').value.trim(),
+    document.getElementById('t3').value.trim(),
+    document.getElementById('t4').value.trim()
+  ].filter(n=>n);
+  if(names.length<2){alert('Please enter at least 2 team names.');return}
+  teams = names.map(n=>({name:n,score:0}));
+  document.getElementById('setup').style.display='none';
+  renderScoreboard();
+  renderBoard();
+}
+
+function renderScoreboard(){
+  const sb=document.getElementById('scoreboard');
+  sb.innerHTML='';
+  teams.forEach((t,i)=>{
+    const d=document.createElement('div');
+    d.className='team-score';
+    d.innerHTML=`<div class="name">${t.name}</div><div class="score">${t.score}</div>`;
+    sb.appendChild(d);
+  });
+}
+
+function renderBoard(){
+  const b=document.getElementById('board');
+  b.innerHTML='';
+  CATEGORIES.forEach(cat=>{
+    const h=document.createElement('div');
+    h.className='cat-header';
+    h.textContent=cat;
+    b.appendChild(h);
+  });
+  for(let r=0;r<5;r++){
+    for(let c=0;c<6;c++){
+      const cell=document.createElement('div');
+      const id=`${c}-${r}`;
+      cell.className='cell'+(usedCells.has(id)?' used':'');
+      cell.textContent=usedCells.has(id)?'':('$'+POINTS[r]);
+      cell.onclick=()=>openCard(c,r);
+      b.appendChild(cell);
+    }
+  }
+}
+
+function openCard(c,r){
+  const id=`${c}-${r}`;
+  if(usedCells.has(id))return;
+  const q=QUESTIONS[c][r];
+  currentPts=POINTS[r];
+  document.getElementById('cardPts').textContent=CATEGORIES[c]+' — $'+POINTS[r];
+  document.getElementById('cardQ').textContent=q.q;
+  document.getElementById('ansReveal').textContent=q.a;
+  document.getElementById('ansReveal').classList.remove('show');
+  document.getElementById('revealBtn').style.display='inline-block';
+  // Team award buttons
+  const ta=document.getElementById('teamAward');
+  ta.innerHTML='<p style="font-size:.85rem;opacity:.6;width:100%">Award points to:</p>';
+  teams.forEach((t,i)=>{
+    const btn=document.createElement('button');
+    btn.className='btn btn-green';
+    btn.textContent=t.name+' ✓';
+    btn.onclick=()=>awardPoints(i,currentPts,c,r);
+    ta.appendChild(btn);
+  });
+  const noOne=document.createElement('button');
+  noOne.className='btn btn-red';
+  noOne.textContent='No one';
+  noOne.onclick=()=>awardPoints(-1,0,c,r);
+  ta.appendChild(noOne);
+
+  document.getElementById('overlay').classList.add('show');
+}
+
+function revealAnswer(){
+  document.getElementById('ansReveal').classList.add('show');
+  document.getElementById('revealBtn').style.display='none';
+}
+
+function awardPoints(teamIdx,pts,c,r){
+  if(teamIdx>=0) teams[teamIdx].score+=pts;
+  usedCells.add(`${c}-${r}`);
+  renderScoreboard();
+  renderBoard();
+  closeCard();
+  if(usedCells.size>=totalCells) setTimeout(showFinal,400);
+}
+
+function closeCard(){
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function showFinal(){
+  const sorted=[...teams].sort((a,b)=>b.score-a.score);
+  const fc=document.getElementById('finalCard');
+  let html=`<h2>GAME OVER!</h2><div class="winner">🏆 Winner: ${sorted[0].name} with $${sorted[0].score}! 🏆</div><div class="all-scores">`;
+  sorted.forEach((t,i)=>{html+=`<div>${i+1}. ${t.name}: $${t.score}</div>`});
+  html+=`</div><br><button class="btn btn-gold" onclick="location.reload()">PLAY AGAIN</button>`;
+  fc.innerHTML=html;
+  document.getElementById('finalOverlay').classList.add('show');
+}
+</script>
+</body>
+</html>

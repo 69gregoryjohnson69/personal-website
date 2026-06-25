@@ -1,0 +1,144 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Teaching Philosophy"
+  description="The teaching philosophy of Gregory Johnson Jr. — a student-centered, output-based approach to Spanish built on challenge, comfort, and human connection."
+>
+  <article class="philosophy">
+    <a class="philosophy__back" href="/teaching/">
+      <span class="arrow" aria-hidden="true">&larr;</span> Teaching
+    </a>
+    <h1 class="philosophy__title reveal">Teaching Philosophy</h1>
+    <div class="philosophy__body prose reveal" style="--reveal-delay: 80ms">
+      <p>
+        A classroom should be a place where every student feels challenged and comfortable at the
+        same time. Given the inherently oral nature of language learning, both challenge and comfort
+        have to work symbiotically within the relationship between teachers and students. Beyond the
+        classic reasons for taking a Spanish class (the second-most-spoken language in the world,
+        more opportunities in business or medicine, the long-term cognitive benefits of
+        bilingualism), there is something deeper to be found in human connection, something that
+        makes university students better equipped for the workforce.
+      </p>
+      <p>
+        After completing a program in any discipline, bachelor&rsquo;s students will find themselves
+        in interviews. By that stage, they are usually qualified for the job. The reality is that,
+        beyond general knowledge of the position, the real purpose of an interview is to find out
+        whether the candidate is someone the firm wants to have around, and those skills are
+        developed in the language classroom. At the start of any semester, elementary and
+        intermediate Spanish classes fill with fifteen to twenty students, most of them strangers.
+        Prompts ask about a student&rsquo;s family, hobbies, favorite foods, and the other ordinary
+        parts of life. In being challenged to produce structured output, students are quietly
+        building human connections and the comfort to talk about themselves with a room of
+        strangers. Those skills, which no transcript can measure, are what I most want my students to
+        carry out of my class.
+      </p>
+      <p>
+        To build a classroom that prioritizes oral output and human connection, a flipped-classroom
+        philosophy is essential. The acquisition of second-language grammar is still being researched
+        thoroughly; we know how students can be guided toward good outcomes, but we have yet to find a
+        single, one-size-fits-all methodology. With that in mind, a combination of explicit and
+        implicit output should be employed. A flipped classroom lets students take control of their
+        learning, each one working through the rules and examples in the way that fits them best.
+        Once that work is done outside of class, class time becomes a fifty-minute flood of input
+        that calls for structured output and brings interpersonal relationships to life. It is hard
+        to speak a language you do not yet know; but when students gain comfort with the material at
+        their own pace, they arrive ready to speak.
+      </p>
+      <p>
+        I also firmly believe in the place of healthy competition in the classroom, because I never
+        want a student to feel left behind. Although much of the material is acquired at each
+        student&rsquo;s own pace, the nature of an output-based classroom, and the connections built
+        among peers, creates a natural urgency to keep up with one another, and a quieter competition
+        within each student as well. The ideal language learner does not, of course, need a grade at
+        the end of the course; but I believe in innovative ways of assessing ability through oral
+        exams and in-class writing, which place a productive pressure on students to keep moving
+        through the material.
+      </p>
+      <p>
+        To support that competitive, flipped classroom, I believe in bringing technology into every
+        lesson. Games are a wonderful way to clear the mind of academic pressure while still flooding
+        the experience with input and requiring output to win, and they add to the human connection
+        and challenge I want in my classrooms.
+      </p>
+      <p>
+        We are in the middle of another technological revolution, one that is transforming the
+        university experience. The evolution of generative AI forces educators and students alike to
+        adapt how we approach assignments and exams. I do not
+        want my students to feel afraid to use it. Used as a tool rather than a crutch, it can make
+        oral output flow more freely. Technology in the classroom has to go beyond a projector and a
+        desktop, and my philosophy encourages students to use every tool at their disposal to keep
+        the environment both challenging and comfortable. Large language models are not human, but
+        they will keep getting better at producing human-like responses. Used well, I believe they
+        will only deepen the human connection that student output creates, while assessment keeps
+        those responses honestly the students&rsquo; own.
+      </p>
+      <p>
+        My own journey into a second language did not include a flipped classroom or such advanced
+        technology. Even so, I promise to keep an innovative and flexible posture in my teaching.
+        Using every tool and current line of research to build enriching activities, dynamic
+        assessments, and real relationships among my students, I hope they come to feel the same
+        desire I did to study and immerse themselves in the Spanish-speaking world. My years abroad
+        transformed my worldview. My hope is that a thoughtful use of technology and an
+        output-centered, flipped classroom encourage my students to travel, to apply what they learn,
+        and to come away with a deeper cultural understanding of the language, better prepared for
+        whatever discipline they pursue beyond Spanish.
+      </p>
+    </div>
+    <footer class="philosophy__footer">
+      <a class="arrow-link" href="/teaching/">
+        <span class="arrow" aria-hidden="true">&larr;</span> Back to teaching
+      </a>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .philosophy {
+    width: 100%;
+    max-width: 42rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 2rem);
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+  .philosophy__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .philosophy__back .arrow {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .philosophy__back:hover {
+    color: var(--ink);
+  }
+  .philosophy__back:hover .arrow {
+    transform: translateX(-3px);
+  }
+  .philosophy__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    margin-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--line);
+  }
+  .philosophy__body {
+    margin-top: var(--space-lg);
+  }
+  .philosophy__footer {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--line);
+  }
+  .philosophy__footer .arrow {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .philosophy__footer .arrow-link:hover .arrow {
+    transform: translateX(-3px);
+  }
+</style>

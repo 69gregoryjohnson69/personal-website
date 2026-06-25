@@ -1,0 +1,114 @@
+---
+import Base from '../../layouts/Base.astro';
+import { essays, formatDate } from '../../lib/essays';
+---
+
+<Base
+  title="Writing"
+  description="Scholarly writing by Gregory Johnson Jr. on culture, institutions, and the commons — drawing on New Institutional Economics and the work of Elinor Ostrom."
+>
+  <section class="page container">
+    <header class="page__head reveal">
+      <h1 class="page__title">Writing</h1>
+      <p class="page__intro measure">
+        Writing on culture, institutions, and the people who sustain them. I&rsquo;m drawn to the
+        commons &mdash; to how shared things govern themselves &mdash; and much of my work reads
+        cultural practices through New Institutional Economics and the thought of Elinor Ostrom.
+      </p>
+    </header>
+
+    <ul class="writing-index">
+      {
+        essays.map((essay, i) => (
+          <li class="writing-item reveal" style={`--reveal-delay: ${i * 80}ms`}>
+            <a class="writing-item__link" href={essay.url}>
+              {essay.kind && <span class="writing-item__kind">{essay.kind}</span>}
+              <h2 class="writing-item__title" lang={essay.lang}>{essay.title}</h2>
+              <p class="writing-item__dek" lang={essay.lang}>{essay.dek}</p>
+              <p class="writing-item__meta">
+                <time datetime={essay.date}>{formatDate(essay.date)}</time>
+                {essay.readingTime && <span> &middot; {essay.readingTime} read</span>}
+              </p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="writing-note reveal">More on the way &mdash; the good ones take a while.</p>
+  </section>
+</Base>
+
+<style>
+  .page {
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+  .page__head {
+    margin-bottom: var(--space-lg);
+  }
+  .page__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+  }
+  .page__intro {
+    margin-top: var(--space-sm);
+    color: var(--muted);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+  .writing-index {
+    border-top: 1px solid var(--line);
+  }
+  .writing-item {
+    border-bottom: 1px solid var(--line);
+  }
+  .writing-item__link {
+    display: block;
+    padding: var(--space-lg) 0;
+    transition: padding-inline var(--dur) var(--ease-out);
+  }
+  .writing-item__kind {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: var(--space-2xs);
+  }
+  .writing-item__title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--ink-strong);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .writing-item__dek {
+    margin-top: var(--space-2xs);
+    max-width: 64ch;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--ink);
+  }
+  .writing-item__meta {
+    margin-top: var(--space-sm);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+  @media (hover: hover) {
+    .writing-item__link:hover {
+      padding-inline: var(--space-md);
+    }
+    .writing-item__link:hover .writing-item__title {
+      color: var(--green);
+    }
+  }
+  .writing-note {
+    margin-top: var(--space-lg);
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--muted);
+  }
+</style>

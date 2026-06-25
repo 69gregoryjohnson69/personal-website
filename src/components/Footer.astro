@@ -1,0 +1,129 @@
+---
+const year = new Date().getFullYear();
+const email = 'Gjj7100@outlook.com';
+const details = [
+  { label: 'Email', value: email, href: `mailto:${email}` },
+  { label: 'Based in', value: 'Iowa City, Iowa' },
+  { label: 'Department', value: 'Spanish & Portuguese, University of Iowa' },
+];
+---
+
+<footer class="footer" id="contact">
+  <div class="container footer__grid">
+    <div class="footer__cta">
+      <p class="eyebrow">Get in touch</p>
+      <h2 class="footer__head">I&rsquo;d love to hear from you.</h2>
+      <p class="footer__lead measure">
+        Whether you&rsquo;re a student, a fellow scholar, or a community partner &mdash; about
+        teaching, a project, or an idea you&rsquo;re working through &mdash; I&rsquo;m always glad to
+        talk. Email is the surest way to reach me.
+      </p>
+      <a class="button" href={`mailto:${email}`}>
+        {email}
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+
+    <div class="footer__meta">
+      <dl class="footer__details">
+        {
+          details.map((d) => (
+            <div class="footer__detail">
+              <dt>{d.label}</dt>
+              <dd>
+                {d.href ? (
+                  <a class="footer__link" href={d.href}>
+                    {d.value}
+                  </a>
+                ) : (
+                  d.value
+                )}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="footer__colophon">
+        Built with Astro. Set in Young&nbsp;Serif, Spectral &amp; Hanken&nbsp;Grotesk.
+      </p>
+      <p class="footer__copy">&copy; {year} Gregory Johnson Jr.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    margin-top: var(--space-2xl);
+    padding-block: var(--space-2xl) var(--space-xl);
+    background:
+      radial-gradient(120% 140% at 0% 0%, var(--coral-wash), transparent 55%),
+      var(--bg);
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-xl) var(--space-lg);
+    align-items: start;
+  }
+  .footer__head {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    margin-top: var(--space-sm);
+    max-width: 18ch;
+  }
+  .footer__lead {
+    margin-top: var(--space-md);
+    color: var(--muted);
+  }
+  .footer__cta .button {
+    margin-top: var(--space-lg);
+  }
+  .footer__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding-top: 0.4rem;
+  }
+  .footer__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .footer__detail dt {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.15rem;
+  }
+  .footer__detail dd {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--ink);
+  }
+  .footer__link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: oklch(0.74 0.13 240 / 0.4);
+    text-underline-offset: 3px;
+    transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
+  }
+  .footer__link:hover {
+    color: var(--cobalt-bright);
+    text-decoration-color: currentColor;
+  }
+  .footer__colophon,
+  .footer__copy {
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+
+  @media (max-width: 48rem) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>

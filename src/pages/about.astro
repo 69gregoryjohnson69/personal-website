@@ -1,0 +1,276 @@
+---
+import Base from '../layouts/Base.astro';
+import Portrait from '../components/Portrait.astro';
+
+const education = [
+  {
+    degree: 'PhD in Spanish',
+    place: 'University of Iowa',
+    period: '2025 — Present',
+    note: 'Literary and cultural studies, with interdisciplinary and digital-humanities approaches. Public Digital Humanities Certificate in progress.',
+  },
+  {
+    degree: 'MA in Spanish',
+    place: 'Saint Louis University–Madrid, Spain',
+    period: '2023 — 2025',
+    note: 'Coursework conducted entirely in Spanish, on a BECA Regis scholarship.',
+  },
+  {
+    degree: 'BA in Economics & Spanish, History minor',
+    place: 'Franklin & Marshall College',
+    period: '2018 — 2022',
+    note: 'Research capstones in Economics and Spanish. All-Conference selection, varsity football (2021).',
+  },
+];
+
+const languages = [
+  { name: 'English', level: 'Native' },
+  { name: 'Spanish', level: 'Professional proficiency' },
+  { name: 'Basque (Euskara)', level: 'Beginner' },
+];
+
+const now = [
+  'Interning with the Iowa City Public Library Friends Foundation on year-round library advocacy.',
+  'Continuing PhD coursework and the Public Digital Humanities certificate.',
+  'Reading toward research in literary and cultural studies.',
+];
+---
+
+<Base
+  title="About"
+  description="Gregory Johnson Jr. is a PhD student in Spanish at the University of Iowa and a bilingual educator who has studied, taught, and lived between the United States and Spain."
+>
+  <section class="about container">
+    <div class="about__intro">
+      <div class="about__portrait reveal">
+        <Portrait alt="A portrait of Gregory Johnson Jr." />
+      </div>
+      <div class="about__lead reveal" style="--reveal-delay: 80ms">
+        <h1 class="about__title">Humanities scholar, Applied AI researcher, Spanish language educator</h1>
+      </div>
+    </div>
+
+    <div class="about__body prose reveal" style="--reveal-delay: 120ms">
+      <p>
+        I&rsquo;m a PhD student in Spanish at the University of Iowa. My work runs across literary and
+        cultural studies and the public and digital humanities, and I&rsquo;m drawn to sport, media,
+        and popular culture as serious objects of study.
+      </p>
+      <p>
+        I came to Spanish through economics and history, and I&rsquo;ve studied, taught, and lived
+        between the United States and Spain. Ideas from institutional economics, like the commons,
+        still shape how I read culture.
+      </p>
+
+      <h2>Right now</h2>
+      <ul class="about__now">
+        {now.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+
+    <div class="about__facts">
+      <section class="about__edu reveal" aria-label="Education">
+        <h2 class="facts__heading">Education</h2>
+        <ol class="edu__list">
+          {
+            education.map((e) => (
+              <li class="edu">
+                <p class="edu__period">{e.period}</p>
+                <h3 class="edu__degree">{e.degree}</h3>
+                <p class="edu__place">{e.place}</p>
+                <p class="edu__note">{e.note}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <aside class="about__side reveal" style="--reveal-delay: 80ms">
+        <section aria-label="Research interests">
+          <h2 class="facts__heading">Research interests</h2>
+          <p class="side__text">
+            Literary and cultural studies; the public and digital humanities; sport, media, and
+            popular culture as objects of inquiry.
+          </p>
+        </section>
+        <section aria-label="Languages" class="side__languages">
+          <h2 class="facts__heading">Languages</h2>
+          <ul class="lang__list">
+            {
+              languages.map((l) => (
+                <li class="lang">
+                  <span class="lang__name">{l.name}</span>
+                  <span class="lang__level">{l.level}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </aside>
+    </div>
+
+    <div class="about__cta reveal">
+      <a class="button" href="/#contact">
+        Get in touch <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+      <a class="arrow-link" href="/teaching/philosophy/">
+        Read my teaching philosophy <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+      <a class="arrow-link" href="/projects/">
+        See the work <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about {
+    padding-block: var(--space-xl) 0;
+  }
+  .about__intro {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: clamp(1.5rem, 5vw, 3.5rem);
+    align-items: center;
+    margin-bottom: var(--space-2xl);
+  }
+  .about__portrait {
+    max-width: 260px;
+    width: 100%;
+  }
+  .about__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    line-height: 1.18;
+    max-width: 22ch;
+  }
+  .about__sub {
+    margin-top: var(--space-md);
+    font-size: var(--text-lg);
+    color: var(--muted);
+    max-width: 46ch;
+  }
+  .about__body {
+    margin-inline: auto;
+  }
+  .about__now {
+    margin-top: 0.6em;
+    display: grid;
+    gap: 0.6em;
+  }
+  .about__now li {
+    position: relative;
+    padding-left: 1.4em;
+    font-family: var(--font-serif);
+  }
+  .about__now li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 0.55em;
+    height: 2px;
+    background: var(--coral);
+  }
+
+  /* ---- Facts (education + sidebar) ---- */
+  .about__facts {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(1.5rem, 5vw, 3.5rem);
+    margin-top: var(--space-2xl);
+  }
+  .facts__heading {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-md);
+  }
+  .edu__list {
+    display: grid;
+  }
+  .edu {
+    padding: var(--space-md) 0;
+    border-top: 1px solid var(--line);
+  }
+  .edu:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .edu__period {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+  .edu__degree {
+    margin-top: 0.2rem;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: var(--ink-strong);
+  }
+  .edu__place {
+    margin-top: 0.1rem;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--coral);
+  }
+  .edu__note {
+    margin-top: var(--space-xs);
+    font-family: var(--font-serif);
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .about__side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+  .side__text {
+    font-family: var(--font-serif);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .lang__list {
+    display: grid;
+    gap: var(--space-sm);
+  }
+  .lang {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--line);
+  }
+  .lang__name {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--ink-strong);
+  }
+  .lang__level {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+
+  .about__cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    max-width: var(--measure);
+    margin: var(--space-2xl) auto 0;
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 46rem) {
+    .about__intro {
+      grid-template-columns: 1fr;
+    }
+    .about__portrait {
+      max-width: 200px;
+    }
+    .about__facts {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>

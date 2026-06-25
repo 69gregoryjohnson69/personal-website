@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="That page doesn't exist — but the work does.">
+  <section class="nf container">
+    <p class="nf__code reveal">404</p>
+    <h1 class="nf__title reveal" style="--reveal-delay: 70ms">
+      This page doesn&rsquo;t exist.
+    </h1>
+    <p class="nf__body reveal" style="--reveal-delay: 130ms">
+      The page you&rsquo;re looking for isn&rsquo;t here &mdash; I may have moved or renamed it.
+      Here&rsquo;s the way back.
+    </p>
+    <div class="nf__actions reveal" style="--reveal-delay: 190ms">
+      <a class="button" href="/">
+        Back home <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+      <a class="arrow-link" href="/projects/">
+        See the work <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    min-height: 62vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-block: var(--space-2xl);
+  }
+  .nf__code {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 12vw, 6rem);
+    color: var(--coral);
+    line-height: 1;
+  }
+  .nf__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    margin-top: var(--space-sm);
+  }
+  .nf__body {
+    margin-top: var(--space-md);
+    max-width: 46ch;
+    color: var(--muted);
+    font-size: var(--text-lg);
+  }
+  .nf__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin-top: var(--space-lg);
+  }
+</style>

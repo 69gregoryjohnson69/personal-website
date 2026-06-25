@@ -1,0 +1,147 @@
+---
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+
+const links = [
+  { href: '/projects/', label: 'Work' },
+  { href: '/writing/', label: 'Writing' },
+  { href: '/teaching/', label: 'Teaching' },
+  { href: '/about/', label: 'About' },
+];
+---
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__mark" href="/" aria-label="Gregory Johnson Jr. — home">
+      Gregory&nbsp;Johnson <span class="nav__suffix">Jr.</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav__links">
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class:list={['nav__link', { 'is-active': isActive(l.href) }]}
+                aria-current={isActive(l.href) ? 'page' : undefined}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href="/#contact" class="nav__cta">Get in touch</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    min-height: 4.25rem;
+  }
+  .nav__mark {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--ink-strong);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .nav__suffix {
+    color: var(--coral);
+  }
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 2.5vw, 1.75rem);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+  }
+  .nav__link {
+    position: relative;
+    color: var(--muted);
+    padding: 0.4rem 0.1rem;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.1rem;
+    height: 2px;
+    background: var(--coral);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .nav__link:hover {
+    color: var(--ink);
+  }
+  .nav__link:hover::after,
+  .nav__link.is-active::after {
+    transform: scaleX(1);
+  }
+  .nav__link.is-active {
+    color: var(--ink-strong);
+  }
+  .nav__cta {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+    padding: 0.45rem 0.95rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out);
+  }
+  .nav__cta:hover {
+    border-color: var(--coral);
+    background: var(--coral-wash);
+  }
+
+  /* Hide the pill before the row gets tight, so it never wraps */
+  @media (max-width: 40rem) {
+    .nav__cta {
+      display: none;
+    }
+  }
+
+  /* On small screens the nav compresses to a single tidy row */
+  @media (max-width: 34rem) {
+    .nav__inner {
+      gap: var(--space-sm);
+      min-height: 3.75rem;
+    }
+    .nav__mark {
+      font-size: 0.98rem;
+    }
+    .nav__suffix {
+      display: none;
+    }
+    .nav__links {
+      gap: 0.7rem;
+      font-size: var(--text-xs);
+    }
+    .nav__cta {
+      display: none;
+    }
+  }
+</style>

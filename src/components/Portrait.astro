@@ -1,0 +1,77 @@
+---
+// Renders the real portrait when the image exists, and falls back to a
+// monogram panel otherwise — the <img> removes itself on error, revealing the
+// monogram beneath. To use your photo, save it as /public/portrait.jpg
+// (or pass a different src). No further edits needed; it appears on reload.
+interface Props {
+  src?: string;
+  alt?: string;
+  shape?: 'rounded' | 'circle';
+  /** object-position for the photo crop, e.g. "50% 22%" */
+  focus?: string;
+}
+const {
+  src = '/portrait.jpg',
+  alt = 'Gregory Johnson Jr.',
+  shape = 'rounded',
+  focus = '50% 22%',
+} = Astro.props;
+---
+
+<div class:list={['portrait', `portrait--${shape}`]} role="img" aria-label={alt}>
+  <span class="portrait__glow" aria-hidden="true"></span>
+  <span class="portrait__initials" aria-hidden="true">GJ</span>
+  {
+    src && (
+      <img
+        class="portrait__img"
+        src={src}
+        alt=""
+        loading="eager"
+        decoding="async"
+        style={`object-position: ${focus}`}
+        onerror="this.remove()"
+      />
+    )
+  }
+</div>
+
+<style>
+  .portrait {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    background: radial-gradient(120% 120% at 70% 15%, var(--surface-2), var(--surface) 70%);
+  }
+  .portrait--rounded {
+    border-radius: var(--radius);
+  }
+  .portrait--circle {
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+  .portrait__glow {
+    position: absolute;
+    inset: -20% 30% 40% -20%;
+    background: radial-gradient(circle, var(--green-wash), transparent 70%);
+    filter: blur(8px);
+  }
+  .portrait__initials {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--ink-strong);
+    letter-spacing: 0.02em;
+  }
+  .portrait__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

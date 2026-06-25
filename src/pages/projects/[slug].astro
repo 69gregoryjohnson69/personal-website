@@ -1,0 +1,282 @@
+---
+import Base from '../../layouts/Base.astro';
+import { projects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const titleLang = project.slug === 'fundaciones-escritura-futbol' ? 'es' : undefined;
+---
+
+<Base title={project.title} description={project.tagline}>
+  <article class="case">
+    <div class="case__wrap">
+      <a class="case__back" href="/projects/">
+        <span class="arrow" aria-hidden="true">&larr;</span> Work
+      </a>
+
+      <header class="case__head reveal">
+        <h1 class="case__title" lang={titleLang}>{project.title}</h1>
+        <p class="case__tagline">{project.tagline}</p>
+      </header>
+
+      <dl class="case__meta reveal" style="--reveal-delay: 70ms">
+        <div>
+          <dt>Kind</dt>
+          <dd>{project.kind}</dd>
+        </div>
+        <div class="case__meta-wide">
+          <dt>Context</dt>
+          <dd>{project.context}</dd>
+        </div>
+        <div>
+          <dt>When</dt>
+          <dd>{project.year}</dd>
+        </div>
+        <div class="case__meta-wide">
+          <dt>Focus</dt>
+          <dd>{project.tags.join(' · ')}</dd>
+        </div>
+      </dl>
+
+      <div class="case__body prose">
+        <p class="case__intro">{project.intro}</p>
+        {
+          project.sections.map((section) => (
+            <section class="case__section">
+              <h2>{section.heading}</h2>
+              {section.body.map((para) => (
+                <p lang={section.lang}>{para}</p>
+              ))}
+            </section>
+          ))
+        }
+      </div>
+
+      {
+        project.outline && (
+          <section class="outline reveal">
+            <h2 class="outline__heading">{project.outline.heading}</h2>
+            <ol class="outline__list">
+              {project.outline.items.map((item) => (
+                <li class="outline__item">
+                  <span class="outline__marker">{item.marker}</span>
+                  <div class="outline__content">
+                    <h3 class="outline__title" lang="es">
+                      {item.title}
+                    </h3>
+                    <p class="outline__detail">{item.detail}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+
+      {
+        project.sources && (
+          <section class="sources">
+            <h2 class="sources__heading">Works cited</h2>
+            <ul class="sources__list">
+              {project.sources.map((s) => (
+                <li lang="es">{s}</li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        project.link && (
+          <a class="button button--ghost case__link" href={project.link.href}>
+            {project.link.label}
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        )
+      }
+
+      <nav class="case__nav" aria-label="Work">
+        <a class="arrow-link case__nav-link" href="/projects/">
+          <span class="arrow" aria-hidden="true">&larr;</span> All work
+        </a>
+        <a class="arrow-link" href="/#contact">
+          Start a conversation <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .case__wrap {
+    width: 100%;
+    max-width: 46rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 2rem);
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+  .case__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .case__back .arrow {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .case__back:hover {
+    color: var(--ink);
+  }
+  .case__back:hover .arrow {
+    transform: translateX(-3px);
+  }
+  .case__head {
+    margin-top: var(--space-lg);
+  }
+  .case__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    line-height: 1.14;
+  }
+  .case__tagline {
+    margin-top: var(--space-sm);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--muted);
+    max-width: 56ch;
+  }
+  .case__meta {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: var(--space-md) var(--space-xl);
+    justify-content: start;
+    margin-block: var(--space-lg);
+    padding-block: var(--space-md);
+    border-block: 1px solid var(--line);
+  }
+  .case__meta-wide {
+    grid-column: 1 / -1;
+  }
+  .case__meta dt {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+  .case__meta dd {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--ink);
+  }
+  .case__intro {
+    font-size: 1.28rem;
+    line-height: 1.6;
+    color: var(--ink-strong);
+  }
+  .case__section {
+    margin-top: 2em;
+  }
+
+  /* ---- Outline (course modules) ---- */
+  .outline {
+    margin-top: var(--space-2xl);
+  }
+  .outline__heading {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-md);
+  }
+  .outline__list {
+    counter-reset: none;
+  }
+  .outline__item {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+    border-top: 1px solid var(--line);
+  }
+  .outline__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .outline__marker {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--coral);
+    padding-top: 0.2rem;
+  }
+  .outline__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: var(--ink-strong);
+  }
+  .outline__detail {
+    margin-top: 0.35rem;
+    font-family: var(--font-serif);
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 52ch;
+  }
+
+  /* ---- Sources ---- */
+  .sources {
+    margin-top: var(--space-2xl);
+  }
+  .sources__heading {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-sm);
+  }
+  .sources__list {
+    display: grid;
+    gap: 0.7rem;
+    max-width: 56ch;
+  }
+  .sources__list li {
+    padding-left: 1.4em;
+    text-indent: -1.4em;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .case__link {
+    margin-top: var(--space-xl);
+  }
+  .case__nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--line);
+  }
+  .case__nav-link .arrow {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .case__nav-link:hover .arrow {
+    transform: translateX(-3px);
+  }
+
+  @media (max-width: 34rem) {
+    .outline__item {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+  }
+</style>

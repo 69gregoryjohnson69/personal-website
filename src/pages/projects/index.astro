@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectEntry from '../../components/ProjectEntry.astro';
+import { projects } from '../../data/projects';
+---
+
+<Base
+  title="Work"
+  description="Selected work by Gregory Johnson Jr.: Spanish course design and public-humanities research."
+>
+  <section class="page container">
+    <header class="page__head reveal">
+      <h1 class="page__title">Work</h1>
+      <p class="page__intro measure">
+        Course design and public-humanities research.
+      </p>
+    </header>
+
+    <div class="work-list">
+      {
+        projects.map((project, i) => (
+          <div class="reveal" style={`--reveal-delay: ${i * 80}ms`}>
+            <ProjectEntry project={project} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page {
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+  .page__head {
+    margin-bottom: var(--space-lg);
+  }
+  .page__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+  }
+  .page__intro {
+    margin-top: var(--space-sm);
+    color: var(--muted);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+  .work-list {
+    border-bottom: 1px solid var(--line);
+  }
+</style>
