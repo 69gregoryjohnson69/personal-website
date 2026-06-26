@@ -1,4 +1,4 @@
----
+﻿---
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path.startsWith(href);
@@ -13,7 +13,7 @@ const links = [
 
 <header class="nav">
   <div class="container nav__inner">
-    <a class="nav__mark" href="/" aria-label="Gregory Johnson Jr. — home">
+    <a class="nav__mark" href="/personal-website/" aria-label="Gregory Johnson Jr. â€” home">
       Gregory&nbsp;Johnson <span class="nav__suffix">Jr.</span>
     </a>
     <nav aria-label="Primary">
@@ -32,7 +32,7 @@ const links = [
           ))
         }
         <li>
-          <a href="/#contact" class="nav__cta">Get in touch</a>
+          <a href="/personal-website/#contact" class="nav__cta">Get in touch</a>
         </li>
       </ul>
     </nav>
@@ -145,3 +145,4 @@ const links = [
     }
   }
 </style>
+

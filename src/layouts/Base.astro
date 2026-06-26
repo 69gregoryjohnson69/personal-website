@@ -1,4 +1,4 @@
----
+﻿---
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -12,11 +12,11 @@ interface Props {
 
 const {
   title,
-  description = 'Gregory Johnson Jr. — humanities scholar and bilingual educator. PhD student in Spanish at the University of Iowa, working at the intersection of literature, culture, language, and the people who carry them.',
+  description = 'Gregory Johnson Jr. â€” humanities scholar and bilingual educator. PhD student in Spanish at the University of Iowa, working at the intersection of literature, culture, language, and the people who carry them.',
   showFooter = true,
 } = Astro.props;
 
-const fullTitle = title === 'Gregory Johnson Jr.' ? title : `${title} · Gregory Johnson Jr.`;
+const fullTitle = title === 'Gregory Johnson Jr.' ? title : `${title} Â· Gregory Johnson Jr.`;
 ---
 
 <!doctype html>
@@ -24,7 +24,7 @@ const fullTitle = title === 'Gregory Johnson Jr.' ? title : `${title} · Gregory
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/personal-website/favicon.svg" type="image/svg+xml" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="color-scheme" content="light" />
@@ -50,3 +50,4 @@ const fullTitle = title === 'Gregory Johnson Jr.' ? title : `${title} · Gregory
     {showFooter && <Footer />}
   </body>
 </html>
+

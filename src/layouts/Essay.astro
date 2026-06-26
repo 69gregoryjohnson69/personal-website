@@ -1,4 +1,4 @@
----
+﻿---
 import Base from './Base.astro';
 import { formatDate } from '../lib/essays';
 
@@ -8,7 +8,7 @@ const { frontmatter } = Astro.props;
 <Base title={frontmatter.title} description={frontmatter.dek}>
   <article class="essay" lang={frontmatter.lang}>
     <header class="essay__header">
-      <a class="essay__back" href="/writing/">
+      <a class="essay__back" href="/personal-website/writing/">
         <span class="arrow" aria-hidden="true">&larr;</span> Writing
       </a>
       {frontmatter.kind && <p class="essay__kind reveal">{frontmatter.kind}</p>}
@@ -23,7 +23,7 @@ const { frontmatter } = Astro.props;
       <slot />
     </div>
     <footer class="essay__footer">
-      <a class="arrow-link" href="/writing/">
+      <a class="arrow-link" href="/personal-website/writing/">
         <span class="arrow" aria-hidden="true">&larr;</span> More writing
       </a>
     </footer>
@@ -102,3 +102,4 @@ const { frontmatter } = Astro.props;
     transform: translateX(-3px);
   }
 </style>
+
