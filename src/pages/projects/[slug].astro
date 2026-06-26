@@ -11,12 +11,13 @@ export function getStaticPaths() {
 
 const { project } = Astro.props;
 const titleLang = project.slug === 'fundaciones-escritura-futbol' ? 'es' : undefined;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <Base title={project.title} description={project.tagline}>
   <article class="case">
     <div class="case__wrap">
-      <a class="case__back" href="/projects/">
+      <a class="case__back" href={`${base}projects/`}>
         <span class="arrow" aria-hidden="true">&larr;</span> Work
       </a>
 
@@ -102,10 +103,10 @@ const titleLang = project.slug === 'fundaciones-escritura-futbol' ? 'es' : undef
       }
 
       <nav class="case__nav" aria-label="Work">
-        <a class="arrow-link case__nav-link" href="/projects/">
+        <a class="arrow-link case__nav-link" href={`${base}projects/`}>
           <span class="arrow" aria-hidden="true">&larr;</span> All work
         </a>
-        <a class="arrow-link" href="/#contact">
+        <a class="arrow-link" href={`${base}#contact`}>
           Start a conversation <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>
       </nav>

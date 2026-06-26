@@ -32,11 +32,12 @@ const roles = [
   },
 ];
 
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const games = [
   {
-    title: 'Brotes Â· MÃ³dulo 2',
+    title: 'Brotes · Módulo 2',
     kind: 'Jeopardy review game',
-    href: '/games/brotes-modulo-2-jeopardy.html',
+    href: `${base}games/brotes-modulo-2-jeopardy.html`,
   },
 ];
 ---

@@ -10,8 +10,9 @@ interface Props {
   /** object-position for the photo crop, e.g. "50% 22%" */
   focus?: string;
 }
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const {
-  src = '/portrait.jpg',
+  src = `${base}portrait.jpg`,
   alt = 'Gregory Johnson Jr.',
   shape = 'rounded',
   focus = '50% 22%',

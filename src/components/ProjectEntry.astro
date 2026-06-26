@@ -4,10 +4,11 @@ interface Props {
   project: Project;
 }
 const { project } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <article class="entry" data-accent={project.accent}>
-  <a class="entry__link" href={`/projects/${project.slug}/`} aria-labelledby={`p-${project.slug}`}>
+  <a class="entry__link" href={`${base}projects/${project.slug}/`} aria-labelledby={`p-${project.slug}`}>
     <div class="entry__head">
       <h3 class="entry__name" id={`p-${project.slug}`}>{project.title}</h3>
       <span class="entry__kind">{project.kind}</span>
