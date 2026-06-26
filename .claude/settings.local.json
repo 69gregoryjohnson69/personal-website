@@ -10,7 +10,10 @@
       "mcp__Claude_in_Chrome__list_connected_browsers",
       "mcp__Claude_in_Chrome__select_browser",
       "mcp__Claude_in_Chrome__navigate",
-      "mcp__Claude_in_Chrome__get_page_text"
+      "mcp__Claude_in_Chrome__get_page_text",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "PowerShell(gh pr list --repo 69gregoryjohnson69/personal-website)"
     ]
   }
 }
